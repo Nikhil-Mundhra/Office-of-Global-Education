@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Office of Global Education · NYU Abu Dhabi</title>
+    <meta name="description" content="Find the right NYU Abu Dhabi Global Education team for Study Away, J-Term, travel, visas, CBL and more." />
+    <meta name="theme-color" content="#57068c" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#teams">Skip to teams</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="NYU Abu Dhabi Office of Global Education home">
+          <img class="brand-logo" src="/nyuad-logo.png" alt="NYU Abu Dhabi" width="300" height="75" />
+          <span class="brand-office">Office of Global Education</span>
+        </a>
+      </div>
+      <div class="stripe" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <p class="eyebrow">Welcome to Global Education</p>
+        <h1>How can we help you today?</h1>
+        <p class="lede">Find the right team in seconds — search a topic, or tap a category below.</p>
+
+        <div class="search">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          <input id="search" type="search" placeholder="Try “visa”, “J-Term tickets”, “internship”…" autocomplete="off" aria-label="Search teams and topics" />
+          <kbd class="search-kbd" aria-hidden="true">/</kbd>
+        </div>
+
+        <div id="topics" class="chips" role="toolbar" aria-label="Filter by topic"></div>
+      </section>
+
+      <section class="container" aria-labelledby="quick-title">
+        <h2 id="quick-title" class="section-title">Book &amp; plan</h2>
+        <div id="quick" class="quick-grid"></div>
+      </section>
+
+      <section class="container" aria-labelledby="teams-title">
+        <div class="section-head">
+          <h2 id="teams-title" class="section-title">Who to contact</h2>
+          <p id="result-count" class="result-count" aria-live="polite"></p>
+        </div>
+        <div id="teams" class="team-grid"></div>
+        <div id="empty" class="empty" hidden>
+          <p><strong>No team matches that search.</strong></p>
+          <p>Not sure who to ask? Email <a href="mailto:nyuad.studyawaysupport@nyu.edu">nyuad.studyawaysupport@nyu.edu</a> and we’ll point you in the right direction.</p>
+          <button type="button" class="btn btn-ghost" id="reset">Clear filters</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>NYU Abu Dhabi · Office of Global Education</p>
+        <p class="muted">Drop by the office or reach out to any team above.</p>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="/data.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
