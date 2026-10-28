@@ -103,13 +103,18 @@ h1 { margin: 0 0 22px; color: var(--violet-ink); font-size: clamp(1.8rem, 4vw, 2
 .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
 .quick {
   --accent: var(--violet);
-  display: flex; align-items: center; gap: 16px;
-  padding: 18px 20px; border-radius: var(--radius);
+  display: flex; flex-direction: column;
+  border-radius: var(--radius);
   background: var(--card); box-shadow: var(--shadow); border: 1px solid var(--line);
-  text-decoration: none; color: var(--ink); position: relative; overflow: hidden;
+  color: var(--ink); position: relative; overflow: hidden;
   transition: transform 0.15s, box-shadow 0.15s;
 }
 .quick::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--accent); }
+.quick-main {
+  flex: 1; display: flex; align-items: center; gap: 16px;
+  padding: 18px 20px 18px 24px; text-decoration: none; color: inherit;
+}
+.quick-copy { margin: 0 20px 16px 24px; align-self: flex-start; }
 .quick:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 .quick-icon {
   flex: none; width: 46px; height: 46px; border-radius: var(--radius-sm);
@@ -121,7 +126,7 @@ h1 { margin: 0 0 22px; color: var(--violet-ink); font-size: clamp(1.8rem, 4vw, 2
 .quick-sub { display: block; font-size: 0.84rem; color: var(--muted); margin-top: 2px; overflow-wrap: anywhere; }
 .quick-arrow { flex: none; display: flex; color: var(--violet); transition: transform 0.15s; }
 .quick-arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.quick:hover .quick-arrow { transform: translateX(3px); }
+.quick-main:hover .quick-arrow { transform: translateX(3px); }
 
 /* Accents */
 [data-accent="magenta"] { --accent: var(--magenta); }
@@ -206,6 +211,14 @@ mark { background: #ffe9b3; color: inherit; border-radius: var(--radius-sm); pad
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 @media (max-width: 520px) {
+  .chips {
+    flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto;
+    margin-inline: -20px; padding: 4px 20px 8px;
+    scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 28px), transparent);
+  }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; scroll-snap-align: start; white-space: nowrap; }
   .header-inner { display: flex; justify-content: center; }
   .brand { align-items: center; text-align: center; }
   .hero { padding-top: 32px; }
@@ -219,3 +232,4 @@ mark { background: #ffe9b3; color: inherit; border-radius: var(--radius-sm); pad
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+.members[hidden] { display: none; }

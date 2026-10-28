@@ -56,14 +56,17 @@
   quickEl.innerHTML = quickLinks
     .map(
       (q) => `
-      <a class="quick" data-accent="${q.accent}" href="${esc(q.url)}" target="_blank" rel="noopener noreferrer">
-        <span class="quick-icon">${svg(q.icon)}</span>
-        <span class="quick-body">
-          <span class="quick-title">${esc(q.title)}</span>
-          <span class="quick-sub">${esc(q.subtitle)}</span>
-        </span>
-        <span class="quick-arrow">${svg("arrow")}</span>
-      </a>`
+      <div class="quick" data-accent="${q.accent}">
+        <a class="quick-main" href="${esc(q.url)}" target="_blank" rel="noopener noreferrer">
+          <span class="quick-icon">${svg(q.icon)}</span>
+          <span class="quick-body">
+            <span class="quick-title">${esc(q.title)}</span>
+            <span class="quick-sub">${esc(q.subtitle)}</span>
+          </span>
+          <span class="quick-arrow">${svg("arrow")}</span>
+        </a>
+        ${q.copyEmail ? `<button type="button" class="btn btn-ghost quick-copy" data-copy="${esc(q.copyEmail)}" aria-label="Copy ${esc(q.copyEmail)}">${svg("copy")}Copy email</button>` : ""}
+      </div>`
     )
     .join("");
 
@@ -106,8 +109,8 @@
             <h3 class="team-name">${highlight(t.name, terms)}</h3>
             <span class="label">Ask about</span>
             <ul class="helps">${t.helpsWith.map((h) => `<li>${highlight(h, terms)}</li>`).join("")}</ul>
-            <span class="label">Team</span>
-            <div class="members">
+            ${t.members.length ? `<span class="label">Team</span>` : ""}
+            <div class="members"${t.members.length ? "" : " hidden"}>
               ${t.members.map((m) => `<span class="member"><span class="avatar" aria-hidden="${photos[m] ? "false" : "true"}">${esc(initials(m))}${photos[m] ? `<img src="${esc(photos[m])}" alt="" width="128" height="128" loading="lazy" decoding="async" onerror="this.remove()">` : ""}</span>${highlight(m, terms)}</span>`).join("")}
             </div>
           </div>
@@ -134,7 +137,7 @@
     toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1800);
   };
 
-  teamsEl.addEventListener("click", async (e) => {
+  document.addEventListener("click", async (e) => {
     const btn = e.target.closest("[data-copy]");
     if (!btn) return;
     const email = btn.dataset.copy;
@@ -147,8 +150,9 @@
       document.execCommand("copy");
       ta.remove();
     }
+    const label = btn.classList.contains("quick-copy") ? "Copy email" : "Copy";
     btn.innerHTML = `${svg("check")}Copied`;
-    setTimeout(() => (btn.innerHTML = `${svg("copy")}Copy`), 1500);
+    setTimeout(() => (btn.innerHTML = `${svg("copy")}${label}`), 1500);
     toast(`Copied ${email}`);
   });
 

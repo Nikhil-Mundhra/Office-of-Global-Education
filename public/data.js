@@ -18,7 +18,8 @@ window.OGE_DATA = {
     },
     {
       title: "Student Mobility Office Hours",
-      subtitle: "Book a slot, or email nyuad.studentmobility@nyu.edu",
+      subtitle: "Book a slot to meet the Student Mobility team",
+      copyEmail: "nyuad.studentmobility@nyu.edu",
       url: "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1uLFWuJjNHGyMj7IN7pcCWvj0axNQ8LpjpuWmmmnfZBzplIISNbL0WiI4d_dg9hf0zt4xaxoxt",
       icon: "plane",
       accent: "orange",
@@ -89,6 +90,14 @@ window.OGE_DATA = {
       members: ["Farhana", "Zain", "Shinu", "Firas"],
       topics: ["visiting"],
       accent: "magenta",
+    },
+    {
+      name: "J-Term Enrollment",
+      email: "nyuad.globaleducation@nyu.edu",
+      helpsWith: ["J-Term enrollment"],
+      members: [],
+      topics: ["jterm"],
+      accent: "teal",
     },
     {
       name: "Community-Based Learning (CBL)",
