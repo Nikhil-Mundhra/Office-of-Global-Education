@@ -44,8 +44,11 @@
     const mail = e.target.closest('a[href^="mailto:"]');
     if (mail) return track("email_click", { label: mail.getAttribute("href").slice(7) });
 
+    const quickOpt = e.target.closest(".quick-opt-btn");
+    if (quickOpt) return track("link_click", { label: `Book Advising: ${quickOpt.textContent.trim().replace(/\s*↗$/, "")}` });
+
     const quick = e.target.closest(".quick-main");
-    if (quick) return track("link_click", { label: quick.querySelector(".quick-title")?.textContent });
+    if (quick && quick.tagName === "A") return track("link_click", { label: quick.querySelector(".quick-title")?.textContent });
   });
 
   // Search: only after the visitor pauses typing; skip anything that looks like personal info

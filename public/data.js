@@ -10,9 +10,14 @@ window.OGE_DATA = {
 
   quickLinks: [
     {
-      title: "Book a Study Away 1-on-1",
+      title: "Book your 1-1 Study Away Advising",
       subtitle: "Personal advising appointment with the Study Away team",
-      url: "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2_s0V53lsmVzmWjK71VCT79nhqOyNgBtQmfIFUns8t_h2XJdzfiJi_olKJ6_1L5dkVJa97ew1V",
+      options: [
+        { label: "Sam", url: "https://calendar.app.google/sNoBW8q3wiKcGEVp6" },
+        { label: "Momchil", url: "https://calendar.app.google/q4c5Qp2o3r1mPoJU7" },
+        { label: "Aisha", url: "https://calendar.app.google/3F2HNTEkJqPqJorY6" },
+        { label: "Audrey", url: "https://calendar.app.google/HTEfK6TtdjQTFmyh9" },
+      ],
       icon: "calendar",
       accent: "magenta",
     },
@@ -57,7 +62,7 @@ window.OGE_DATA = {
         "Summer in the US",
         "Internships during Study Away",
       ],
-      members: ["Aisha", "Islam “Sam”", "Momchil"],
+      members: ["Aisha", "Islam “Sam”", "Momchil", "Audrey"],
       topics: ["studyaway", "jterm", "internships"],
       accent: "magenta",
     },
@@ -78,10 +83,10 @@ window.OGE_DATA = {
       accent: "teal",
     },
     {
-      name: "J-Term Enrollment",
+      name: "J-Term application and enrollment",
       email: "nyuad.globaleducation@nyu.edu",
-      helpsWith: ["J-Term enrollment"],
-      members: [],
+      helpsWith: ["J-Term application and enrollment"],
+      members: ["Ram"],
       topics: ["jterm"],
       accent: "teal",
     },

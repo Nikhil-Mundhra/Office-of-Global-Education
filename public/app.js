@@ -54,20 +54,43 @@
 
   // Quick links
   quickEl.innerHTML = quickLinks
-    .map(
-      (q) => `
+    .map((q) => {
+      const headerContent = `
+        <span class="quick-icon">${svg(q.icon)}</span>
+        <span class="quick-body">
+          <span class="quick-title">${esc(q.title)}</span>
+          <span class="quick-sub">${esc(q.subtitle)}</span>
+        </span>`;
+
+      const main = q.options
+        ? `<div class="quick-main">
+            ${headerContent}
+          </div>
+          <div class="quick-options" role="group" aria-label="Select an advisor to book a calendar slot">
+            <span class="quick-options-label">Select advisor:</span>
+            <div class="quick-options-grid">
+              ${q.options
+                .map(
+                  (o) => `
+                <a class="btn btn-ghost quick-opt-btn" href="${esc(o.url)}" target="_blank" rel="noopener noreferrer" aria-label="Book appointment with ${esc(o.label)}">
+                  <span>${esc(o.label)}</span>
+                  <span class="opt-arrow" aria-hidden="true">↗</span>
+                </a>`
+                )
+                .join("")}
+            </div>
+          </div>`
+        : `<a class="quick-main" href="${esc(q.url)}" target="_blank" rel="noopener noreferrer">
+            ${headerContent}
+            <span class="quick-arrow">${svg("arrow")}</span>
+          </a>`;
+
+      return `
       <div class="quick" data-accent="${q.accent}">
-        <a class="quick-main" href="${esc(q.url)}" target="_blank" rel="noopener noreferrer">
-          <span class="quick-icon">${svg(q.icon)}</span>
-          <span class="quick-body">
-            <span class="quick-title">${esc(q.title)}</span>
-            <span class="quick-sub">${esc(q.subtitle)}</span>
-          </span>
-          <span class="quick-arrow">${svg("arrow")}</span>
-        </a>
+        ${main}
         ${q.copyEmail ? `<button type="button" class="btn btn-ghost quick-copy" data-copy="${esc(q.copyEmail)}" aria-label="Copy ${esc(q.copyEmail)}">${svg("copy")}Copy email</button>` : ""}
-      </div>`
-    )
+      </div>`;
+    })
     .join("");
 
   // Topic chips (horizontal carousel on mobile)
