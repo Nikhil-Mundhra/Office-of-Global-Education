@@ -2,7 +2,7 @@
   "name": "office-of-global-education",
   "version": "1.0.0",
   "private": true,
-  "description": "NYU Abu Dhabi Office of Global Education \u2014 quick links hub (linktree-style).",
+  "description": "NYU Abu Dhabi Office of Global Education — quick links hub (linktree-style).",
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js"
@@ -11,6 +11,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "mongodb": "^6.10.0"
   }
 }
