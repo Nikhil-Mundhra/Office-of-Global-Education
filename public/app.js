@@ -1,5 +1,5 @@
 (() => {
-  const { quickLinks, topics, teams } = window.OGE_DATA;
+  const { quickLinks, topics, teams, photos = {} } = window.OGE_DATA;
 
   const $ = (sel) => document.querySelector(sel);
   const searchEl = $("#search");
@@ -108,7 +108,7 @@
             <ul class="helps">${t.helpsWith.map((h) => `<li>${highlight(h, terms)}</li>`).join("")}</ul>
             <span class="label">Team</span>
             <div class="members">
-              ${t.members.map((m) => `<span class="member"><span class="avatar" aria-hidden="true">${esc(initials(m))}</span>${highlight(m, terms)}</span>`).join("")}
+              ${t.members.map((m) => `<span class="member"><span class="avatar" aria-hidden="${photos[m] ? "false" : "true"}">${esc(initials(m))}${photos[m] ? `<img src="${esc(photos[m])}" alt="" width="128" height="128" loading="lazy" decoding="async" onerror="this.remove()">` : ""}</span>${highlight(m, terms)}</span>`).join("")}
             </div>
           </div>
           <div class="team-foot">

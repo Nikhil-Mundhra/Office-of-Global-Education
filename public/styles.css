@@ -54,12 +54,12 @@ a { color: var(--violet); }
 .stripe span:nth-child(4) { background: var(--teal); }
 
 /* Hero */
-.hero { padding: 48px 0 12px; text-align: center; }
+.hero { padding: 36px 0 12px; text-align: center; }
 .eyebrow {
   margin: 0 0 8px; color: var(--magenta); font-weight: 700;
   font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
 }
-h1 { margin: 0; color: var(--violet-ink); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.01em; }
+h1 { margin: 0 0 22px; color: var(--violet-ink); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.01em; }
 .lede { margin: 10px auto 26px; color: var(--muted); max-width: 560px; }
 
 .search { position: relative; max-width: 620px; margin: 0 auto; }
@@ -155,11 +155,15 @@ h1 { margin: 0; color: var(--violet-ink); font-size: clamp(1.8rem, 4vw, 2.6rem);
 .members { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
 .member { display: inline-flex; align-items: center; gap: 7px; font-size: 0.86rem; font-weight: 600; }
 .avatar {
-  width: 28px; height: 28px; border-radius: 50%;
+  position: relative; overflow: hidden; flex: none;
+  width: 36px; height: 36px; border-radius: 50%;
   display: grid; place-items: center; font-size: 0.75rem; font-weight: 700;
   background: var(--accent); color: #fff;
 }
-[data-accent="amber"] .avatar, [data-accent="teal"] .avatar { color: var(--violet-dark); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Darker avatar fills on light accents so white initials stay readable */
+[data-accent="amber"] .avatar { background: #b97800; }
+[data-accent="teal"] .avatar { background: #3f8f9e; }
 
 .team-foot { display: flex; gap: 8px; padding: 14px 22px 20px; border-top: 1px solid var(--line); margin-top: 8px; }
 .email {

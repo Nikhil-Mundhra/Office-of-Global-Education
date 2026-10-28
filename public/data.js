@@ -1,5 +1,12 @@
 // Edit this file to update teams, emails, members and quick links.
 window.OGE_DATA = {
+  // Member photos: name -> file in /public/team (128x128 webp/jpg). Members without a photo show initials.
+  photos: {
+    "Aisha": "/team/aisha.webp",
+    "Islam “Sam”": "/team/sam.webp",
+    "Firas": "/team/firas.webp",
+  },
+
   quickLinks: [
     {
       title: "Book a Study Away 1-on-1",
