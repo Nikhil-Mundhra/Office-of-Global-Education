@@ -70,7 +70,22 @@
     )
     .join("");
 
-  // Topic chips
+  // Topic chips (horizontal carousel on mobile)
+  const FADE = 24; // px of edge fade, only shown on a side that has more to scroll to
+  const updateFades = () => {
+    const max = topicsEl.scrollWidth - topicsEl.clientWidth;
+    topicsEl.style.setProperty("--fade-l", topicsEl.scrollLeft > 4 ? `${FADE}px` : "0px");
+    topicsEl.style.setProperty("--fade-r", max - topicsEl.scrollLeft > 4 ? `${FADE}px` : "0px");
+  };
+
+  // Scroll the selected chip to the centre of the carousel (horizontal only, never moves the page)
+  const centerActiveChip = (smooth) => {
+    const el = topicsEl.querySelector('.chip[aria-pressed="true"]');
+    if (!el || topicsEl.scrollWidth <= topicsEl.clientWidth) return;
+    const left = el.offsetLeft - (topicsEl.clientWidth - el.offsetWidth) / 2;
+    topicsEl.scrollTo({ left: Math.max(0, left), behavior: smooth ? "smooth" : "auto" });
+  };
+
   const renderChips = () => {
     topicsEl.innerHTML =
       `<button type="button" class="chip" data-topic="" aria-pressed="${!state.topic}">All</button>` +
@@ -79,26 +94,53 @@
         .join("");
   };
 
+  topicsEl.addEventListener("scroll", updateFades, { passive: true });
+  window.addEventListener("resize", () => { updateFades(); centerActiveChip(false); });
+
   topicsEl.addEventListener("click", (e) => {
     const btn = e.target.closest(".chip");
     if (!btn) return;
     const id = btn.dataset.topic || null;
     state.topic = state.topic === id ? null : id;
     renderChips();
+    centerActiveChip(true);
     renderTeams();
     syncUrl();
   });
 
   // Teams
-  const haystack = (t) => norm([t.name, t.email, ...t.helpsWith, ...t.members, ...t.topics.map((id) => topics.find((x) => x.id === id)?.label || "")].join(" "));
-
   const renderTeams = () => {
     const terms = norm(state.query).split(/\s+/).filter(Boolean);
-    const list = teams.filter((t) => {
-      if (state.topic && !t.topics.includes(state.topic)) return false;
-      const h = haystack(t);
-      return terms.every((term) => h.includes(term));
-    });
+    // Relevance: 1) search score (name > what they help with > topic > members > email),
+    // 2) rank of the active topic within the team's own (primary-first) topics, 3) curated order in data.js.
+    const FIELDS = (t) => [
+      [norm(t.name), 100],
+      [norm(t.helpsWith.join(" ")), 50],
+      [norm(t.topics.map((id) => topics.find((x) => x.id === id)?.label || "").join(" ")), 20],
+      [norm(t.members.join(" ")), 10],
+      [norm(t.email), 5],
+    ];
+    const scoreOf = (t) => {
+      const fields = FIELDS(t);
+      let total = 0;
+      for (const term of terms) {
+        let best = 0;
+        for (const [text, weight] of fields) if (text.includes(term)) best = Math.max(best, weight);
+        if (!best) return -1;
+        total += best;
+      }
+      return total;
+    };
+    const list = teams
+      .map((t, order) => ({ t, order, score: scoreOf(t) }))
+      .filter(({ t, score }) => score >= 0 && (!state.topic || t.topics.includes(state.topic)))
+      .sort(
+        (a, b) =>
+          b.score - a.score ||
+          (state.topic ? a.t.topics.indexOf(state.topic) - b.t.topics.indexOf(state.topic) : 0) ||
+          a.order - b.order
+      )
+      .map(({ t }) => t);
 
     teamsEl.innerHTML = list
       .map(
@@ -180,6 +222,7 @@
     state.topic = null;
     searchEl.value = "";
     renderChips();
+    centerActiveChip(true);
     renderTeams();
     syncUrl();
     searchEl.focus();
@@ -187,4 +230,8 @@
 
   renderChips();
   renderTeams();
+  centerActiveChip(false);
+  updateFades();
+  // Fonts/layout may shift widths after load
+  window.addEventListener("load", () => { centerActiveChip(false); updateFades(); });
 })();

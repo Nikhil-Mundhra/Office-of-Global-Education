@@ -1,4 +1,5 @@
 // Zero-dependency local dev server. On Vercel, /public is served statically.
+try { process.loadEnvFile(); } catch {} // optional local .env (MONGODB_URI)
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -18,6 +19,11 @@ const TYPES = {
 http
   .createServer((req, res) => {
     let urlPath = decodeURIComponent(req.url.split("?")[0]);
+    if (urlPath === "/api/track") {
+      // Same handler Vercel runs; no-ops (204) unless MONGODB_URI is set.
+      require("./api/track.js")(req, res);
+      return;
+    }
     if (urlPath.endsWith("/")) urlPath += "index.html";
     const filePath = path.normalize(path.join(ROOT, urlPath));
     if (!filePath.startsWith(ROOT)) {

@@ -29,3 +29,18 @@ npx vercel --prod   # production
 ```
 
 Or import the GitHub repo at vercel.com/new. No build step is needed: `vercel.json` serves `public/`.
+
+## Analytics (MongoDB)
+
+Anonymous usage events (page views, topic filters, searches, email copy/click, quick-link clicks) are stored in MongoDB so you can see what visitors look for. No cookies, IPs or names are stored. Browsers with Do Not Track / Global Privacy Control are skipped.
+
+- The browser queues events and sends them **once**, when the visitor leaves or hides the page, to a single tiny function: [`api/track.js`](api/track.js). Everything else stays static.
+- Set these environment variables in Vercel (Project → Settings → Environment Variables):
+  - `MONGODB_URI` — your MongoDB Atlas connection string (required; without it tracking silently does nothing)
+  - `MONGODB_DB` — optional, defaults to `oge` (collection: `events`)
+- Raw events auto-delete after about 13 months (TTL index).
+- To view the data, use Atlas Data Explorer or Atlas Charts on the `events` collection. Event `type` values: `view`, `filter`, `search`, `copy_email`, `email_click`, `link_click`.
+
+## Relevance order
+
+"Who to contact" is sorted by relevance: the order of `teams` in `public/data.js` is the default. Searching ranks by where the match is (team name, then what they help with, then topic, members, email). With a topic filter active, teams whose first-listed `topics` entry is that topic come first.

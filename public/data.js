@@ -39,12 +39,14 @@ window.OGE_DATA = {
     { id: "travel", label: "Travel & Tickets" },
     { id: "visa", label: "Visas & NOC" },
     { id: "internships", label: "Internships" },
-    { id: "visiting", label: "Visiting Students" },
     { id: "cbl", label: "Community Learning" },
+    { id: "visiting", label: "Visiting Students" },
     { id: "osr", label: "Social Responsibility" },
   ],
 
   teams: [
+    // Listed in order of relevance (most commonly needed first). Search and topic filters re-rank from here;
+    // within a team, `topics` are ordered primary-first and used when a topic filter is active.
     {
       name: "Study Away Team",
       email: "nyuad.studyawaysupport@nyu.edu",
@@ -68,28 +70,12 @@ window.OGE_DATA = {
       accent: "orange",
     },
     {
-      name: "Community-Based Global Learning",
-      email: "nyuad.regionalprograms@nyu.edu",
-      helpsWith: ["J-Term at non-NYU sites"],
-      members: ["Gloria", "Rae", "Nevin"],
-      topics: ["jterm", "cbl"],
-      accent: "amber",
-    },
-    {
       name: "UAE Student Visa Team",
       email: "nyuad.uaestudentvisa@nyu.edu",
       helpsWith: ["UAE student visas", "NOC requests for Fall or Spring Break (personal travel)"],
       members: ["Christine"],
       topics: ["visa", "travel"],
       accent: "teal",
-    },
-    {
-      name: "Visiting Student Program",
-      email: "nyuad.visitingstudents@nyu.edu",
-      helpsWith: ["Visiting student activities"],
-      members: ["Farhana", "Zain", "Shinu", "Firas"],
-      topics: ["visiting"],
-      accent: "magenta",
     },
     {
       name: "J-Term Enrollment",
@@ -100,12 +86,28 @@ window.OGE_DATA = {
       accent: "teal",
     },
     {
+      name: "Community-Based Global Learning",
+      email: "nyuad.regionalprograms@nyu.edu",
+      helpsWith: ["J-Term at non-NYU sites"],
+      members: ["Gloria", "Rae", "Nevin"],
+      topics: ["jterm", "cbl"],
+      accent: "amber",
+    },
+    {
       name: "Community-Based Learning (CBL)",
       email: "nyuad.cbl@nyu.edu",
       helpsWith: ["CBL activities during the semester", "Abu Dhabi-based J-Term classes"],
       members: ["Gloria", "Amna", "Laine"],
       topics: ["cbl", "jterm"],
       accent: "orange",
+    },
+    {
+      name: "Visiting Student Program",
+      email: "nyuad.visitingstudents@nyu.edu",
+      helpsWith: ["Visiting student activities"],
+      members: ["Farhana", "Zain", "Shinu", "Firas"],
+      topics: ["visiting"],
+      accent: "magenta",
     },
     {
       name: "Office of Social Responsibility",
