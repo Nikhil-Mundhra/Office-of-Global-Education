@@ -4,6 +4,7 @@ window.OGE_DATA = {
   photos: {
     "Aisha": "/team/aisha.webp",
     "Islam “Sam”": "/team/sam.webp",
+    "Momchil": "/team/momchil.webp",
     "Firas": "/team/firas.webp",
   },
 
