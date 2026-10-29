@@ -1,46 +1,120 @@
-# Office-of-Global-Education
-Useful links and information for incoming students regarding study away J-terms, Student Mobility, Community Based Learning, and more.
+# NYUAD Office of Global Education Hub
 
-A linktree-style hub in the NYU Global Programs theme. It is a static site with no dependencies, set up to deploy on Vercel.
+A responsive, high-performance quick links hub and contact directory for the **NYU Abu Dhabi Office of Global Education (OGE)**. Designed to help incoming and current students quickly find contact information, book advising sessions, and navigate resources for Study Away, J-Terms, Student Mobility, Visas, and Community-Based Global Learning.
 
-## Run locally
+Built as a lightweight, Linktree-style portal with zero frontend build dependencies, deployed on Vercel with optional privacy-first anonymous analytics powered by MongoDB Atlas.
 
+---
+
+## Features
+
+- **Zero Build Step:** Native HTML, CSS, and modern JavaScript. No bundlers (Webpack/Vite), transpilers, or frontend frameworks.
+- **Advisor Appointment Scheduler:** Interactive modal for selecting and booking 1-on-1 calendar slots with specific advisors.
+- **Quick Actions & One-Click Copy:** Fast access to booking links, external portals, and one-click clipboard copying for team emails.
+- **Instant Search & Relevance Ranking:** Weighted client-side search indexing team names, services, topics, staff members, and email addresses.
+- **Shareable Deep Links:** Address bar synchronization (`?q=...` and `?topic=...`) enables deep linking and instant QR code generation for front-desk signage.
+- **Privacy-First Anonymous Telemetry:** Minimal usage events buffered in browser memory and dispatched via exit beacons. Zero cookies, zero IP tracking, zero PII, with full respect for Do Not Track (DNT) and Global Privacy Control (GPC).
+- **Mobile-First Responsive Layout:** Smooth horizontal filter chip scroller and accessible touch targets for mobile devices.
+
+---
+
+## Quick Start
+
+### Prerequisites
+- Node.js (version 18.0.0 or higher)
+
+### Run Locally
 ```bash
-npm run dev        # → http://localhost:3000
+# Clone the repository
+git clone https://github.com/nikhilmundhra/Office-of-Global-Education.git
+cd Office-of-Global-Education
+
+# Start the zero-dependency local dev server
+npm run dev
+# Server listening at http://localhost:3000
 ```
 
-## Update content
+> **Note:** Node.js 18+ automatically loads `.env` using native `process.loadEnvFile()`.
 
-All teams, emails, members, topics and quick links are in [`public/data.js`](public/data.js). Edit that file and redeploy.
+---
 
-## Shareable filters
+## Environment Variables
 
-The search and topic filter are saved in the URL, so you can link straight to a view (for example, as a QR code at the front desk):
+Configure these in a local `.env` file or in your Vercel Project Settings:
 
-- `/?topic=visa` — UAE visa / NOC
-- `/?topic=jterm` — everything J-Term
-- `/?q=tickets` — free-text search
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `MONGODB_URI` | No | — | MongoDB Atlas connection string for anonymous analytics. If omitted, analytics silently no-ops (`204 No Content`). |
+| `MONGODB_DB` | No | `oge` | MongoDB database name. Analytics events are saved to the `events` collection. |
+| `PORT` | No | `3000` | Local development server port. |
 
-## Deploy to Vercel
+---
 
-```bash
-npx vercel          # preview
-npx vercel --prod   # production
+## Project Structure
+
+```
+.
+├── AGENTS.md             # Guidelines and architectural reference for AI coding agents
+├── README.md             # Project documentation and setup guide
+├── api/
+│   └── track.js          # Vercel serverless function for batched analytics logging
+├── package.json          # Node manifest (minimal dependencies: mongodb)
+├── public/
+│   ├── analytics.js      # Client-side event buffer and exit beacon dispatcher
+│   ├── app.js            # UI logic, search/filtering, and modal handling
+│   ├── data.js           # Single source of truth for content, teams, and links
+│   ├── favicon.svg       # Site favicon
+│   ├── index.html        # Semantic HTML layout
+│   ├── nyuad-logo.png    # NYUAD brand logo asset
+│   ├── styles.css        # NYU brand variables, responsive layouts, and cards
+│   └── team/             # Team headshot images (128x128 webp/jpg)
+├── server.js             # Local development server mimicking Vercel static serving
+└── vercel.json           # Vercel static output config, security, and cache headers
 ```
 
-Or import the GitHub repo at vercel.com/new. No build step is needed: `vercel.json` serves `public/`.
+---
 
-## Analytics (MongoDB)
+## Updating Content
 
-Anonymous usage events (page views, topic filters, searches, email copy/click, quick-link clicks) are stored in MongoDB so you can see what visitors look for. No cookies, IPs or names are stored. Browsers with Do Not Track / Global Privacy Control are skipped.
+All site content is centralized in [`public/data.js`](public/data.js):
 
-- The browser queues events and sends them **once**, when the visitor leaves or hides the page, to a single tiny function: [`api/track.js`](api/track.js). Everything else stays static.
-- Set these environment variables in Vercel (Project → Settings → Environment Variables):
-  - `MONGODB_URI` — your MongoDB Atlas connection string (required; without it tracking silently does nothing)
-  - `MONGODB_DB` — optional, defaults to `oge` (collection: `events`)
-- Raw events auto-delete after about 13 months (TTL index).
-- To view the data, use Atlas Data Explorer or Atlas Charts on the `events` collection. Event `type` values: `view`, `filter`, `search`, `copy_email`, `email_click`, `link_click`.
+- **Quick Links & Advisor Schedules:** Update the `quickLinks` array. You can define direct links (`url`), one-click email copying (`copyEmail`), or multi-advisor scheduling options (`options: [{ label, url }]`).
+- **Teams & Responsibilities:** Edit the `teams` array with contact email addresses, bullet points under `helpsWith`, staff `members`, and associated `topics`.
+- **Topic Filter Pills:** Add or modify categories in the `topics` array.
+- **Team Headshots:** Place square profile images (`128x128px` recommended, WebP or JPG) in `public/team/`, then register the file in `OGE_DATA.photos`. If no photo is specified, the UI automatically falls back to the member's initials.
 
-## Relevance order
+---
 
-"Who to contact" is sorted by relevance: the order of `teams` in `public/data.js` is the default. Searching ranks by where the match is (team name, then what they help with, then topic, members, email). With a topic filter active, teams whose first-listed `topics` entry is that topic come first.
+## Search & Relevance Ranking
+
+1. **Default Order:** Teams are displayed in the baseline order defined in `public/data.js`.
+2. **Search Queries:** Searches match case-insensitively and are ranked hierarchically:
+   1. Team name exact/prefix matches.
+   2. "Helps with" service bullet matches.
+   3. Topic tags.
+   4. Staff member names.
+   5. Email addresses.
+3. **Topic Filtering:** When a topic chip is selected, teams featuring that topic as their primary (first-listed) tag are prioritized to the top.
+
+---
+
+## Deployment
+
+### Vercel (Recommended)
+This repository is configured for automatic zero-config deployment on Vercel via [`vercel.json`](vercel.json):
+
+```bash
+# Preview deployment
+npx vercel
+
+# Production deployment
+npx vercel --prod
+```
+
+Or connect the repository on [vercel.com](https://vercel.com/new). No build step is required; `public/` is served directly with preconfigured security and asset caching headers.
+
+---
+
+## Contributing & AI Guidelines
+
+When using AI coding assistants or automated agents, consult [`AGENTS.md`](AGENTS.md) for architectural invariants, coding conventions, zero-dependency requirements, and caching practices.
