@@ -245,9 +245,11 @@ mark { background: #ffe9b3; color: inherit; border-radius: var(--radius-sm); pad
   .chips {
     flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto;
     margin-inline: -20px; padding: 4px 20px 8px;
+    scroll-padding-inline: 20px;
     scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch;
-    --fade-l: 0px; --fade-r: 24px;
-    mask-image: linear-gradient(90deg, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
+    --mask-l: 1; --fade-l: 0px; --mask-r: 0; --fade-r: 24px;
+    -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,var(--mask-l)) 0px, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), rgba(0,0,0,var(--mask-r)) 100%);
+    mask-image: linear-gradient(90deg, rgba(0,0,0,var(--mask-l)) 0px, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), rgba(0,0,0,var(--mask-r)) 100%);
   }
   .chips::-webkit-scrollbar { display: none; }
   .chip { flex: none; scroll-snap-align: start; white-space: nowrap; }

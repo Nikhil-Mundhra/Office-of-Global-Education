@@ -97,8 +97,12 @@
   const FADE = 24; // px of edge fade, only shown on a side that has more to scroll to
   const updateFades = () => {
     const max = topicsEl.scrollWidth - topicsEl.clientWidth;
-    topicsEl.style.setProperty("--fade-l", topicsEl.scrollLeft > 4 ? `${FADE}px` : "0px");
-    topicsEl.style.setProperty("--fade-r", max - topicsEl.scrollLeft > 4 ? `${FADE}px` : "0px");
+    const hasLeft = topicsEl.scrollLeft > 6;
+    const hasRight = max - topicsEl.scrollLeft > 6;
+    topicsEl.style.setProperty("--mask-l", hasLeft ? "0" : "1");
+    topicsEl.style.setProperty("--fade-l", hasLeft ? `${FADE}px` : "0px");
+    topicsEl.style.setProperty("--mask-r", hasRight ? "0" : "1");
+    topicsEl.style.setProperty("--fade-r", hasRight ? `${FADE}px` : "0px");
   };
 
   // Scroll the selected chip to the centre of the carousel (horizontal only, never moves the page)
